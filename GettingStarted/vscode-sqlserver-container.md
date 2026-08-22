@@ -50,7 +50,7 @@ For this guide, we will use:
 - container name: `sqlserver1`
 - host port: `7433`
 - SQL Server login: `sa`
-- sample password: `Dbms2025!`
+- sample password: `dbms2026!`
 
 > [!IMPORTANT]
 > Use the same password everywhere in this guide unless your instructor tells you to choose a different one.
@@ -189,7 +189,7 @@ The `docker run` command below:
 Use this command on Windows, macOS, or Linux:
 
 ```bash
-docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Dbms2025!" -e "MSSQL_PID=EnterpriseDeveloper" -p 7433:1433 --name sqlserver1 --hostname sqlserver1 --mount source=sqlserver-data1,target=/var/opt/mssql -d mcr.microsoft.com/mssql/server:2025-latest
+docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=dbms2026!" -e "MSSQL_PID=EnterpriseDeveloper" -p 7433:1433 --name sqlserver1 --hostname sqlserver1 --mount source=sqlserver-data1,target=/var/opt/mssql -d mcr.microsoft.com/mssql/server:2025-latest
 ```
 
 ### Apple Silicon Mac version
@@ -197,7 +197,7 @@ docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Dbms2025!" -e "MSSQL_PID=Ent
 If needed on an M-series Mac, use:
 
 ```bash
-docker run --platform linux/amd64 -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Dbms2025!" -e "MSSQL_PID=EnterpriseDeveloper" -p 7433:1433 --name sqlserver1 --hostname sqlserver1 --mount source=sqlserver-data1,target=/var/opt/mssql -d mcr.microsoft.com/mssql/server:2025-latest
+docker run --platform linux/amd64 -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=dbms2026!" -e "MSSQL_PID=EnterpriseDeveloper" -p 7433:1433 --name sqlserver1 --hostname sqlserver1 --mount source=sqlserver-data1,target=/var/opt/mssql -d mcr.microsoft.com/mssql/server:2025-latest
 ```
 
 ### Verify that the container is running
@@ -367,7 +367,7 @@ Use these connection settings:
 - **Trust server certificate:** checked
 - **Authentication type:** `SQL Login`
 - **User name:** `sa`
-- **Password:** `Dbms2025!`
+- **Password:** `dbms2026!`
 - **Save Password:** checked
 - **Database name:** `master`
 - **Encrypt:** `Mandatory`
@@ -465,7 +465,7 @@ If the volume still exists, your databases may still be safe. Recreate the conta
 
 ```bash
 docker volume ls
-docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Dbms2025!" -e "MSSQL_PID=EnterpriseDeveloper" -p 7433:1433 --name sqlserver1 --hostname sqlserver1 --mount source=sqlserver-data1,target=/var/opt/mssql -d mcr.microsoft.com/mssql/server:2025-latest
+docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=dbms2026!" -e "MSSQL_PID=EnterpriseDeveloper" -p 7433:1433 --name sqlserver1 --hostname sqlserver1 --mount source=sqlserver-data1,target=/var/opt/mssql -d mcr.microsoft.com/mssql/server:2025-latest
 ```
 
 ### Docker says the container name is already in use
