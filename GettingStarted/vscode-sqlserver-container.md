@@ -67,9 +67,12 @@ For this guide, we will use:
 Install Docker Desktop for your operating system:
 
 - **Windows:** [Docker Desktop for Windows](https://docs.docker.com/desktop/setup/install/windows-install/)
+  - Most windows users when use the x86_64 version. 
 - **macOS:** [Docker Desktop for Mac](https://docs.docker.com/desktop/setup/install/mac-install/)
+  - M1, M2, M3, M4, etc... mac users will use the Apple silicon version.
+  - If you have an older mac that does not have M chip, then you will use the Intel chip version.
 - **Linux:** [Docker Desktop for Linux](https://docs.docker.com/desktop/setup/install/linux/)
-
+  - Select your distribution and following the provided website instructions.
 After installation:
 
 1. Start Docker Desktop.
@@ -360,6 +363,8 @@ After the extensions finish installing, restart VS Code.
 5. In the Activity Bar on the left, select the **SQL Server** extension icon.
 6. Click **Add Connection**.
 
+![alt text](images/open-sql-extension.png)
+
 Use these connection settings:
 
 - **Server name:** `localhost`
@@ -378,7 +383,7 @@ Use these connection settings:
 Click **Test Connection**.
 
 If the test succeeds, click **Connect**.
-
+![alt text](images/connection-properties.png) 
 ---
 
 ## 11. Verify that SQL Server is working
@@ -395,6 +400,8 @@ You should see the SQL Server system databases:
 - `model`
 - `msdb`
 - `tempdb`
+
+![alt text](images/sql-system-database-1.png)
 
 ### Run a test query
 
@@ -413,6 +420,8 @@ SELECT * FROM sys.database_files;
 The **Query Results** pane should return rows describing the files for the `master` database. In a default setup, you should typically see two rows.
 
 If you see results, your environment is working correctly.
+
+![alt text](images/query-results.png)
 
 ---
 
