@@ -21,7 +21,6 @@ Each SQL Server installation includes services and components that support diffe
 | SQL Server Reporting Services (SSRS) | Used to create, manage, and deliver paginated reports and dashboards for business users. |
 | PolyBase | Allows SQL Server to query external data sources such as Hadoop or cloud storage as part of a normal SQL workload. |
 
-> In most beginner courses, the SQL Server Database Engine is the most important service because it is responsible for the tables, queries, and transactions used by applications.
 
 ---
 
