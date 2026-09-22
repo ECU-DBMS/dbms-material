@@ -57,7 +57,7 @@ GO
 -- Task 15: Show all programs for a Northland University's Business Administration department.
 
 
--- Task 16: Check whether a course code exists anywhere in the collection. (Requires CROSSAPPLY )
+-- Task 16: Check whether course code NUR23 exists anywhere in the collection. (Requires CROSSAPPLY )
 
 
 -- Task 17: Add a new college to a university document and show the before/after state.
