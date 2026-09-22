@@ -7,7 +7,6 @@
       2. Write your own SQL for each task below.
       3. Show the SQL and the result set for every task.
       4. For tasks that change the database state, include a before/after check.
-      5. Explain the JSON path used in your query.
 */
 
 USE UniversityDocumentDB;
@@ -22,25 +21,25 @@ GO
 -- Task 3: Retrieve the first college name for every university.
 
 
--- Task 4: Show every college name across all universities using a nested array query.(Requires CROSSAPPLY )
+-- Task 4: Show university name and collegename for every college name across all universities using a nested array query.(Requires CROSSAPPLY )
 
 
--- Task 5: Count how many colleges each university has and sort by the count descending.(Requires CROSSAPPLY )
+-- Task 5: Show University Name and Count of how many colleges each university has and sort by the count descending.(Requires CROSSAPPLY )
 
 
--- Task 6: Display the names for all deans for  for a chosen college in a given university.
+-- Task 6: Display the names for all deans for a specific college. (Requires CROSSAPPLY)
 
 
 -- Task 7: List department names for a selected university and college. (Requires CROSSAPPLY )
 
 
--- Task 8: Find a department by name and return the department chair. (Requires CROSSAPPLY )
+-- Task 8: Find the department chair for Willow University's Computer Science Deparment. (Requires CROSSAPPLY )
 
 
--- Task 9: Return all program names for a chosen department.(Requires CROSSAPPLY )
+-- Task 9: Return all program names for Northland University.(Requires CROSSAPPLY )
 
 
--- Task 10: Display all course codes offered in a specific program.(Requires CROSSAPPLY )
+-- Task 10: Display all course codes offered in the B.S. of Computer Science program at Northland University.(Requires CROSSAPPLY )
 
 
 -- Task 11: List all universities that offer a program delivered by hybrid or online methods.(Requires CROSSAPPLY )
@@ -52,10 +51,10 @@ GO
 -- Task 13: Find universities with more than 30,000 students.
 
 
--- Task 14: Extract a complete college object for a specific college ID.
+-- Task 14: Extract the complete college object for Northland University's College of Business.
 
 
--- Task 15: Show all programs for a selected college and department using a nested filtered path.
+-- Task 15: Show all programs for a Northland University's Business Administration department.
 
 
 -- Task 16: Check whether a course code exists anywhere in the collection. (Requires CROSSAPPLY )
