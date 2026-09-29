@@ -1,4 +1,6 @@
 
+use UniversityRelationalDB;
+
 declare @result int;
 
 select @result = (5 + 3);
@@ -11,7 +13,7 @@ declare @name varchar(50) = 'Brian Dietrick';
 set @name = 'Brian Dietrick';
 
 
-select * 
+select top 10 * 
 from University;
 GO
 
