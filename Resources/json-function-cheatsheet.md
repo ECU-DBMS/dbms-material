@@ -86,7 +86,90 @@ ID | Document                   | CreatedAt            | key | value | type
 ### c.value
 c.value is the data in the value column for the current row that is being processed
 
-### 
+### Explicit schema using With 
+You can use the WITH operator to create a custom schema instead of the default (key, value, type).
+
+e.g. In the following example, @json is the the JSON from the Document column
+
+```sql
+    SELECT d.departmentId, d.departmentName, d.chairName, d.programs
+    FROM OPENJSON(@json,'$.colleges[1].departments')
+    WITH (
+        departmentId INT '$.departmentId',
+        departmentName NVARCHAR(MAX) '$.departmentName',
+        chairName NVARCHAR(MAX) '$.chairName',
+        programs NVARCHAR(MAX) '$.programs' AS JSON
+    ) d
+```
+
+It returns the following result.
+```
+departmentId    departmentName	        chairName	        programs
+120	            Mechanical Engineering	Dr. Ethan Lee	    [{"programId":720,"programName":"M.S. in Finance","degreeType":.......}]
+121	            Chemistry	            Dr. Olivia Martinez	[{"programId":721,"programName":"B.S. in Computer Science","degreeType":.......}]
+122	            Marketing	            Dr. Noah Wilson	    [{"programId":722,"programName":"B.A. in Biology","degreeType":........}]
+```
+
+So, we can exclude a department with a where like such
+
+```sql
+    SELECT d.departmentId, d.departmentName, d.chairName, d.programs
+    FROM OPENJSON(@json,'$.colleges[1].departments')
+    WITH (
+        departmentId INT '$.departmentId',
+        departmentName NVARCHAR(MAX) '$.departmentName',
+        chairName NVARCHAR(MAX) '$.chairName',
+        programs NVARCHAR(MAX) '$.programs' AS JSON
+    ) d
+    WHERE departmentName <> 'Marketing'
+```
+
+Which results in removing the Marketing department from the result set.
+```
+departmentId    departmentName	        chairName	        programs
+120	            Mechanical Engineering	Dr. Ethan Lee	    [{"programId":720,"programName":"M.S. in Finance","degreeType":.......}]
+121	            Chemistry	            Dr. Olivia Martinez	[{"programId":721,"programName":"B.S. in Computer Science","degreeType":.......}]
+```
+
+We can use the FOR JSON PATH modifier to convert the whole result set back into the original JSON Array minus the excluded department
+```sql
+    SELECT d.departmentId, d.departmentName, d.chairName, d.programs
+    FROM OPENJSON(@json,'$.colleges[1].departments')
+    WITH (
+        departmentId INT '$.departmentId',
+        departmentName NVARCHAR(MAX) '$.departmentName',
+        chairName NVARCHAR(MAX) '$.chairName',
+        programs NVARCHAR(MAX) '$.programs' AS JSON
+    ) d
+    WHERE departmentName <> 'Marketing'
+    FOR JSON PATH
+```
+One big JSON array
+```
+[{"departmentId":120,"departmentName":"Mechanical Engineering","chairName":"Dr. Ethan Lee","programs":[{"programId":720,"programName":"M.S. in Finance","degreeType":"Master","deliveryMode":"On-campus","courses":[{"courseCode":"MEC11","courseName":"Statics","credits":1,"courseType":"core"},{"courseCode":"MEC12","courseName":"Thermodynamics","credits":2,"courseType":"elective"}]},{"programId":721,"programName":"B.S. in Computer Science","degreeType":"Bachelor","deliveryMode":"Hybrid","courses":[{"courseCode":"MEC21","courseName":"Thermodynamics","credits":2,"courseType":"core"},{"courseCode":"MEC22","courseName":"Fluid Mechanics","credits":3,"courseType":"elective"},{"courseCode":"MEC23","courseName":"Design Lab","credits":4,"courseType":"core"}]},{"programId":722,"programName":"B.A. in Biology","degreeType":"Bachelor","deliveryMode":"Online","courses":[{"courseCode":"MEC31","courseName":"Fluid Mechanics","credits":3,"courseType":"core"},{"courseCode":"MEC32","courseName":"Design Lab","credits":4,"courseType":"elective"},{"courseCode":"MEC33","courseName":"Materials Science","credits":1,"courseType":"core"},{"courseCode":"MEC34","courseName":"Statics","credits":2,"courseType":"elective"}]}]},{"departmentId":121,"departmentName":"Chemistry","chairName":"Dr. Olivia Martinez","programs":[{"programId":721,"programName":"B.S. in Computer Science","degreeType":"Bachelor","deliveryMode":"On-campus","courses":[{"courseCode":"CHE11","courseName":"General Chemistry","credits":1,"courseType":"core"},{"courseCode":"CHE12","courseName":"Organic Chemistry","credits":2,"courseType":"elective"}]},{"programId":722,"programName":"B.A. in Biology","degreeType":"Bachelor","deliveryMode":"Hybrid","courses":[{"courseCode":"CHE21","courseName":"Organic Chemistry","credits":2,"courseType":"core"},{"courseCode":"CHE22","courseName":"Analytical Chemistry","credits":3,"courseType":"elective"},{"courseCode":"CHE23","courseName":"Physical Chemistry","credits":4,"courseType":"core"}]}]}]
+```
+
+Now we can overwrite the original Departments array in the specific college object
+```sql
+UPDATE dbo.UniversityCollection
+SET Document = JSON_MODIFY(Document, '$.colleges[1].departments',
+    (
+    SELECT *
+    FROM OPENJSON(Document,'$.colleges[1].departments')
+    WITH (
+        departmentId INT '$.departmentId',
+        departmentName NVARCHAR(MAX) '$.departmentName',
+        chairName NVARCHAR(MAX) '$.chairName',
+        programs NVARCHAR(MAX) '$.programs' AS JSON
+    )
+    WHERE departmentName <> 'Marketing'
+    FOR JSON PATH
+
+    )
+)
+WHERE JSON_VALUE(Document, '$.universityId') = 1004;
+GO
+```
 
 
 
