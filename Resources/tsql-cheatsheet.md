@@ -356,7 +356,296 @@ GO
 
 ---
 
-## 7) INSERT, UPDATE, DELETE
+## 7) Common T-SQL programming constructs
+
+### IF ... ELSE
+```sql
+IF EXISTS (SELECT 1 FROM dbo.Customers WHERE CustomerID = 12)
+BEGIN
+    PRINT 'Customer exists';
+END
+ELSE
+BEGIN
+    PRINT 'Customer does not exist';
+END;
+GO
+```
+
+### CASE expression
+```sql
+SELECT
+    CustomerID,
+    FirstName,
+    CASE
+        WHEN IsActive = 1 THEN 'Active'
+        WHEN IsActive = 0 THEN 'Inactive'
+        ELSE 'Unknown'
+    END AS CustomerStatus
+FROM dbo.Customers;
+GO
+```
+
+### WHILE loop
+```sql
+DECLARE @Counter INT = 1;
+
+WHILE @Counter <= 5
+BEGIN
+    PRINT CONCAT('Counter = ', @Counter);
+    SET @Counter += 1;
+END;
+GO
+```
+
+### BEGIN ... END block
+```sql
+BEGIN
+    UPDATE dbo.Customers
+    SET IsActive = 0
+    WHERE CustomerID = 42;
+
+    PRINT 'Customer deactivated';
+END;
+GO
+```
+
+### TRY ... CATCH error handling
+```sql
+BEGIN TRY
+    SELECT 10 / 0 AS Result;
+END TRY
+BEGIN CATCH
+    SELECT
+        ERROR_NUMBER() AS ErrorNumber,
+        ERROR_MESSAGE() AS ErrorMessage,
+        ERROR_SEVERITY() AS Severity,
+        ERROR_STATE() AS State;
+END CATCH;
+GO
+```
+
+### RETURN
+```sql
+IF NOT EXISTS (SELECT 1 FROM dbo.Customers WHERE CustomerID = 5)
+BEGIN
+    RETURN;
+END;
+
+SELECT *
+FROM dbo.Customers
+WHERE CustomerID = 5;
+GO
+```
+
+### GOTO (use sparingly)
+```sql
+DECLARE @Flag INT = 0;
+
+IF @Flag = 0
+    GOTO Label_A;
+
+SELECT 'This will not run';
+
+Label_A:
+SELECT 'Execution jumped to here';
+GO
+```
+
+---
+
+## 8) Common T-SQL functions
+
+The examples below use common SQL Server functions that appear in stored procedures, reporting, and data cleanup work.
+
+### String functions
+
+#### CONCAT
+Concatenates values into a single string.
+```sql
+SELECT CONCAT(FirstName, ' ', LastName) AS FullName
+FROM dbo.Customers;
+GO
+```
+
+#### LEN
+Returns the number of characters in a string.
+```sql
+SELECT LEN('SQL Server') AS StringLength;
+GO
+```
+
+#### LOWER / UPPER
+Converts string values to lowercase or uppercase.
+```sql
+SELECT UPPER(FirstName) AS FirstNameUpper,
+       LOWER(LastName) AS LastNameLower
+FROM dbo.Customers;
+GO
+```
+
+#### LEFT / RIGHT
+Returns characters from the left or right side of a string.
+```sql
+SELECT LEFT('ABC123', 3) AS Prefix,
+       RIGHT('ABC123', 3) AS Suffix;
+GO
+```
+
+#### SUBSTRING
+Returns a part of a string.
+```sql
+SELECT SUBSTRING('Database', 2, 4) AS Part;
+GO
+```
+
+#### REPLACE
+Replaces all occurrences of a substring with another.
+```sql
+SELECT REPLACE('Northwind', 'wind', 'lake') AS UpdatedValue;
+GO
+```
+
+#### CHARINDEX
+Finds the position of a character or substring.
+```sql
+SELECT CHARINDEX('@', 'name@example.com') AS AtSymbolPosition;
+GO
+```
+
+#### LTRIM / RTRIM
+Removes leading or trailing spaces.
+```sql
+SELECT LTRIM(RTRIM('   SQL Server   ')) AS TrimmedValue;
+GO
+```
+
+### Numeric functions
+
+#### ABS
+Returns the absolute value of a numeric expression.
+```sql
+SELECT ABS(-25.75) AS AbsoluteValue;
+GO
+```
+
+#### ROUND
+Rounds a numeric value to a specified number of decimal places.
+```sql
+SELECT ROUND(123.4567, 2) AS RoundedValue;
+GO
+```
+
+#### CEILING / FLOOR
+Round up or down to the nearest integer.
+```sql
+SELECT CEILING(12.1) AS CeilingValue,
+       FLOOR(12.9) AS FloorValue;
+GO
+```
+
+### Date and time functions
+
+#### GETDATE
+Returns the current system date and time.
+```sql
+SELECT GETDATE() AS CurrentDateTime;
+GO
+```
+
+#### DATEADD
+Adds a date/time interval to a date.
+```sql
+SELECT DATEADD(DAY, 7, GETDATE()) AS NextWeek;
+GO
+```
+
+#### DATEDIFF
+Calculates the difference between two dates.
+```sql
+SELECT DATEDIFF(DAY, '2026-01-01', GETDATE()) AS DaysSinceStart;
+GO
+```
+
+#### CONVERT / CAST
+Converts one data type to another.
+```sql
+SELECT CONVERT(VARCHAR(10), GETDATE(), 101) AS USDate,
+       CAST(123.45 AS DECIMAL(10,2)) AS NumericValue;
+GO
+```
+
+### Conditional and null-handling functions
+
+#### ISNULL
+Returns the second value when the first is NULL.
+```sql
+SELECT ISNULL(Email, 'No email provided') AS EmailDisplay
+FROM dbo.Customers;
+GO
+```
+
+#### COALESCE
+Returns the first non-NULL value from a list.
+```sql
+SELECT COALESCE(Email, PhoneNumber, 'No contact information') AS ContactInfo
+FROM dbo.Customers;
+GO
+```
+
+#### NULLIF
+Returns NULL if two values are equal; otherwise returns the first value.
+```sql
+SELECT NULLIF(5, 5) AS Result;
+GO
+```
+
+#### IIF
+Returns one of two values based on a Boolean expression.
+```sql
+SELECT CustomerID,
+       IIF(IsActive = 1, 'Active', 'Inactive') AS Status
+FROM dbo.Customers;
+GO
+```
+
+### Aggregate functions
+
+#### COUNT
+Counts rows or non-NULL values.
+```sql
+SELECT COUNT(*) AS TotalCustomers
+FROM dbo.Customers;
+GO
+```
+
+#### SUM
+Adds values in a numeric column.
+```sql
+SELECT SUM(TotalAmount) AS TotalSales
+FROM dbo.Orders;
+GO
+```
+
+#### AVG
+Calculates the average of a numeric column.
+```sql
+SELECT AVG(TotalAmount) AS AverageOrderValue
+FROM dbo.Orders;
+GO
+```
+
+#### MIN / MAX
+Returns the smallest or largest value in a set.
+```sql
+SELECT MIN(TotalAmount) AS LowestOrder,
+       MAX(TotalAmount) AS HighestOrder
+FROM dbo.Orders;
+GO
+```
+
+---
+
+## 9) INSERT, UPDATE, DELETE
 
 ### Insert a single row
 ```sql
@@ -418,7 +707,7 @@ GO
 
 ---
 
-## 8) TRUNCATE TABLE
+## 10) TRUNCATE TABLE
 
 ### Remove all rows quickly
 ```sql
@@ -434,7 +723,7 @@ GO
 
 ---
 
-## 9) UPDATE STATISTICS
+## 11) UPDATE STATISTICS
 
 ### Update statistics for a table
 ```sql
@@ -462,7 +751,7 @@ GO
 
 ---
 
-## 10) Useful database maintenance commands
+## 12) Useful database maintenance commands
 
 ### Check if a table exists
 ```sql
@@ -498,7 +787,7 @@ GO
 
 ---
 
-## 11) Common patterns and safety notes
+## 13) Common patterns and safety notes
 
 - Use `BEGIN TRANSACTION` and `COMMIT` for logical batches:
 ```sql
@@ -529,7 +818,7 @@ GO
 
 ---
 
-## 12) Quick reference summary
+## 14) Quick reference summary
 
 ```sql
 -- CREATE DATABASE
