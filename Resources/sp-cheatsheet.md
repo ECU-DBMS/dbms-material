@@ -317,7 +317,7 @@ Grant only the permissions users need. Replace `[StudentReader]` with an
 existing database user or role:
 
 ```sql
-GRANT EXECUTE ON OBJECT::dbo.usp_GetStudents TO [StudentReader];
+GRANT EXECUTE ON dbo.usp_GetStudents TO [StudentReader];
 ```
 
 ## 10. Common mistakes to avoid
