@@ -1,0 +1,82 @@
+{
+  "source": "UCI Online Retail",
+  "author": "Daqing Chen",
+  "doi": "10.24432/C5BW33",
+  "license": "CC BY 4.0",
+  "sourceUrl": "https://archive.ics.uci.edu/static/public/352/data.csv",
+  "sha256": "a2f79bbdd4463df6db8a3f5a50b9c980ae8f645a370bf5e2c0d6097f9e817b05",
+  "dates": [
+    "2010-12-01T08:26:00",
+    "2011-07-29T12:09:00"
+  ],
+  "orders": 10000,
+  "lines": 196731,
+  "products": 3329,
+  "customers": 3135,
+  "excludedInvalidOrNonMerchandise": 145863,
+  "lineGross": "44716764700",
+  "firstOrder": {
+    "invoice": "536365",
+    "at": "2010-12-01T08:26:00",
+    "customer": "17850"
+  },
+  "firstOrderLines": [
+    {
+      "code": "UCI-1",
+      "invoice": "536365",
+      "sku": "85123A",
+      "quantity": 6,
+      "price": "2.55",
+      "at": "2010-12-01T08:26:00"
+    },
+    {
+      "code": "UCI-2",
+      "invoice": "536365",
+      "sku": "71053",
+      "quantity": 6,
+      "price": "3.39",
+      "at": "2010-12-01T08:26:00"
+    },
+    {
+      "code": "UCI-3",
+      "invoice": "536365",
+      "sku": "84406B",
+      "quantity": 8,
+      "price": "2.75",
+      "at": "2010-12-01T08:26:00"
+    },
+    {
+      "code": "UCI-4",
+      "invoice": "536365",
+      "sku": "84029G",
+      "quantity": 6,
+      "price": "3.39",
+      "at": "2010-12-01T08:26:00"
+    },
+    {
+      "code": "UCI-5",
+      "invoice": "536365",
+      "sku": "84029E",
+      "quantity": 6,
+      "price": "3.39",
+      "at": "2010-12-01T08:26:00"
+    },
+    {
+      "code": "UCI-6",
+      "invoice": "536365",
+      "sku": "22752",
+      "quantity": 2,
+      "price": "7.65",
+      "at": "2010-12-01T08:26:00"
+    },
+    {
+      "code": "UCI-7",
+      "invoice": "536365",
+      "sku": "21730",
+      "quantity": 6,
+      "price": "4.25",
+      "at": "2010-12-01T08:26:00"
+    }
+  ],
+  "note": "Source invoices are modelled as accepted sales orders, not proof of settlement or delivery. Only explicitly authored operational scenarios are fulfilled."
+}
