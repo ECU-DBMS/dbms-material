@@ -149,6 +149,7 @@ when messages change.
 ### Recommended template
 ```sql
 CREATE OR ALTER PROCEDURE dbo.usp_EnrollStudent
+    @Semester NVARCHAR(50),
     @StudentID INT,
     @CourseID INT,
     @ResultCode INT OUTPUT,
@@ -163,8 +164,8 @@ BEGIN
         IF @StudentID IS NULL OR @CourseID IS NULL
             THROW 50201, 'StudentID and CourseID are required.', 1;
 
-        INSERT INTO dbo.Enrollments (StudentID, CourseID, EnrolledAtUtc)
-        VALUES (@StudentID, @CourseID, SYSUTCDATETIME());
+        INSERT INTO dbo.Enrollments (Semester, StudentID, CourseID, EnrolledAtUtc)
+        VALUES (@Semester, @StudentID, @CourseID, SYSUTCDATETIME());
     END TRY
     BEGIN CATCH
         SET @ResultCode = ERROR_NUMBER();
